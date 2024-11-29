@@ -1,8 +1,11 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+﻿// Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "UELearning1Projectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
+#include "UELearning1GameMode.h"
+#include "UELearning1Block.h"
+#include "Kismet/GameplayStatics.h"
 
 AUELearning1Projectile::AUELearning1Projectile() 
 {
@@ -32,12 +35,55 @@ AUELearning1Projectile::AUELearning1Projectile()
 }
 
 void AUELearning1Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+//{
+//	// Only add impulse and destroy projectile if we hit a physics
+//	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics())
+//	{
+//		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
+//
+//		Destroy();
+//	}
+//}
 {
-	// Only add impulse and destroy projectile if we hit a physics
-	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics())
-	{
-		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
 
-		Destroy();
-	}
+    if (OtherActor != nullptr && OtherActor != this && OtherComp != nullptr)
+    {
+        // if block
+        if (OtherActor->IsA(AUELearning1Block::StaticClass()))
+        {
+            // gamemode for counter
+            AUELearning1GameMode* GameMode = Cast<AUELearning1GameMode>(UGameplayStatics::GetGameMode(this));
+
+            if (AUELearning1Block* HitBlock = Cast< AUELearning1Block>(OtherActor)) {
+                int32 ScoreToAdd = HitBlock->GetIsImportantTarget() ? GameMode->X * 2 : GameMode->X;
+                if (GameMode)
+                {
+                    GameMode->AddScore(ScoreToAdd);
+                    //UE_LOG(LogTemp, Log, TEXT("What to add: %d"), ScoreToAdd);
+
+                }
+                if (HitBlock->GetHitTimes() < 1) 
+                {
+                    // scale the block
+                    FVector NewScale = HitBlock->GetActorScale3D() * GameMode->Y;
+                    HitBlock->SetActorScale3D(NewScale);
+                    HitBlock->AddHitTimes();
+                }
+                else 
+                {
+                    // destroy the block
+                    HitBlock->Destroy();
+                }
+            }
+            
+        }
+        else if (OtherComp->IsSimulatingPhysics())
+        {
+            // physical impulse
+            OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
+        }
+
+        // destroy
+        Destroy();
+    }
 }

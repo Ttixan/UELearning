@@ -74,32 +74,36 @@ uint8 xx:1;
 
 流程：
 先写c++，generator会生成，Uproperty如果写了一些不正确的会编译报错。
-#### UPROPERTY
+### UPROPERTY
 可以加一点定义，可以在蓝图上显示？
-可以设定属性，还有下滑框。meta用法。隐藏（针对编辑器用法）
-一级，二级（使用或`|`）建立多级列表
-【DisPlay Name】
-【DisPlay Priority】显示优先级，人为定义
-【Advanced Display】隐藏低频修改的属性
-【Clamp Min/Max】限制数值范围
 
-蓝图
-调整可读性
-【BlueprintReadWrite】
-【BlueprintReadOnly】
-传播
-【BlueprintCallable】
+可以设定属性，还有下滑框。meta用法。隐藏（针对编辑器用法）
+
+一级，二级（使用或`|`）建立多级列表
+
+其他显示相关：
+- 【DisPlay Name】
+- 【DisPlay Priority】显示优先级，人为定义
+- 【Advanced Display】隐藏低频修改的属性
+- 【Clamp Min/Max】限制数值范围
+
+蓝图，调整可读性
+- 【BlueprintReadWrite】
+- 【BlueprintReadOnly】
+传播：
+- 【BlueprintCallable】
 ### UFUNCTION
 Meta函数默认值
 
 ### UCLASS
-注意generated.h 否则会报错。
-还有GENERATED_BODY
-模板类的概念。所以初始化里面不需要写很多东西。
-只在运行时用的东西不要在构造函数初始化。
+注意事项：
+- 注意generated.h 否则会报错。
+- 还有GENERATED_BODY
+- 模板类的概念。所以初始化里面不需要写很多东西。
+- 只在运行时用的东西不要在构造函数初始化。
 
 跨模块访问，加模块名字？
-全大写+API
+- 全大写+API
 ### USTRUCT
 用于结构体的宏。
 ### UENUM

@@ -29,39 +29,50 @@ Slate对于UMG进行易用化封装。进行交互处理。
 - 动画轨道:用于编辑控件动画
 ### UMG编辑器-设计器
 创建方法：内容浏览器，创建，用户界面，控件蓝图。
+
 ![image.png](https://gitee.com/dontt/picgo-img-bed/raw/master/img/20241207163417.png)
 
 #### 画布
 画布：整个UI的可视化呈现。
 所见即所得。拖入控件即可见。【类似于Unity中的Canvas？】
+
 ![image.png](https://gitee.com/dontt/picgo-img-bed/raw/master/img/20241207163718.png)
 
 #### 控制板/库【左上角】
 可以看到可以用哪些元素
+
 ![image.png](https://gitee.com/dontt/picgo-img-bed/raw/master/img/20241207163816.png)
 
 #### 层级视图【左下角】
 显示元素之间的关系（树状关系）
+
 ![image.png](https://gitee.com/dontt/picgo-img-bed/raw/master/img/20241207163918.png)
 #### 细节面板【右侧】
 用于调整UI元素的属性（如位置信息，材质，颜色等）
+
 ![image.png](https://gitee.com/dontt/picgo-img-bed/raw/master/img/20241207164052.png)
 
 #### 绑定控件
 在层级面板所在位置的另一个页标签。 
 显示当前绑定到C++变量给你的蓝图控件或动画
+
 ![image.png](https://gitee.com/dontt/picgo-img-bed/raw/master/img/20241207164403.png)
 
 #### 动画轨道【左下角打开】
+位置：
+
 ![image.png](https://gitee.com/dontt/picgo-img-bed/raw/master/img/20241207164255.png)
 用于编辑控件动画，如渐入渐出。【类似于PR的用法，k帧】
+
 ![image.png](https://gitee.com/dontt/picgo-img-bed/raw/master/img/20241207164305.png)
 
 ### UMG编辑器-图表
 图表：蓝图，可视化编程。
 在设计器界面的右上角找到Graph按钮，点击即可切换。
+
 ![image.png](https://gitee.com/dontt/picgo-img-bed/raw/master/img/20241207164502.png)
 切换后：
+
 ![image.png](https://gitee.com/dontt/picgo-img-bed/raw/master/img/20241207164601.png)
 逻辑驱动UI
 
@@ -73,26 +84,37 @@ Slate对于UMG进行易用化封装。进行交互处理。
 图片，简单的文字等（
 - 交互体验: 使用按钮，滑动条，输入框等交互元素获取玩家输入以达成交互功能
 PRogressBar
+
 ![image.png](https://gitee.com/dontt/picgo-img-bed/raw/master/img/20241207165546.png)
+
 ![image.png](https://gitee.com/dontt/picgo-img-bed/raw/master/img/20241207165613.png)
 
 - 布局调整及适配: 通过合理的布局以美化U整体效果
 HorizontalBox，VerticalBox，ScrollingBox？
+
 ![image.png](https://gitee.com/dontt/picgo-img-bed/raw/master/img/20241207165700.png)
+视图：
+
 ![image.png](https://gitee.com/dontt/picgo-img-bed/raw/master/img/20241207165707.png)
 
 - 动画效果: 动画效果的实现对于可以进一步提升U的美术效果功能实现:以代码驱动Ul的整体运行
 #### 控件设置为变量
 需要先勾选is variable，才能在图表中编辑（如果原本没有显示的话）
+
 ![image.png](https://gitee.com/dontt/picgo-img-bed/raw/master/img/20241207170100.png)
+勾选后：
+
 ![image.png](https://gitee.com/dontt/picgo-img-bed/raw/master/img/20241207170103.png)
 之后可以拉出来，设置一些属性。
+
 ![image.png](https://gitee.com/dontt/picgo-img-bed/raw/master/img/20241207170218.png)
 
 #### 如何绑定事件？
 在某个UI的细节面板的右下角，可以看到哪些是可以绑定的。
+
 ![image.png](https://gitee.com/dontt/picgo-img-bed/raw/master/img/20241207170422.png)
-点击加号后新增
+点击加号后新增On Clicked：
+
 ![image.png](https://gitee.com/dontt/picgo-img-bed/raw/master/img/20241207170443.png)
 #### Preconstruct
 用于判断是否是设计者视图，还是运行时？
@@ -112,11 +134,13 @@ Construct相比与PreConstruct要更安全。在PreContruct后面。
 
 更应该使用的：OnInitialize：只会触发一次。
 默认没有，需要添加。
+
 ![image.png](https://gitee.com/dontt/picgo-img-bed/raw/master/img/20241207172055.png)
 ### C++操控控件
 创建C++类，AllClasses-Userwidget类
 点击屏幕中间上方的Class Settings按钮，然后在左下角细节面板中会有设置父 类（Parent Class）的属性，设置为刚刚创建的C++ Class。
 【类设置】
+
 ![image.png](https://gitee.com/dontt/picgo-img-bed/raw/master/img/20241207173932.png)
 
 例子：

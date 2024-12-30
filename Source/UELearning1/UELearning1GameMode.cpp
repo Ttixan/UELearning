@@ -2,14 +2,17 @@
 
 #include "UELearning1GameMode.h"
 #include "UELearning1Character.h"
-#include "UObject/ConstructorHelpers.h"
-#include "TimerManager.h"
-#include "Kismet/GameplayStatics.h"
+#include "MyPlayerState.h"
 #include "UELearning1Block.h"
+#include "TimerManager.h"
+#include "UObject/ConstructorHelpers.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/GameStateBase.h"
+
 
 
 AUELearning1GameMode::AUELearning1GameMode()
-	: Super(), CurrentScore(0), X(20), Y(0.5f), T(30.0f), N(2)
+	: Super(), CurrentScore(0), X(20), Y(0.5f), T(30.0f), N(2), BulletNum(100), MaxHealth(100.0f)
 {
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnClassFinder(TEXT("/Game/FirstPerson/Blueprints/BP_FirstPersonCharacter"));
@@ -42,8 +45,21 @@ void AUELearning1GameMode::BeginPlay()
 
 void AUELearning1GameMode::EndGame()
 {
-
-	UE_LOG(LogTemp, Log, TEXT("Game End! Final Score: %d"), CurrentScore);
+	// 获取所有玩家的 PlayerState
+	int32 AllScore = 0;
+	if (this->GameState)
+	{
+		for (APlayerState* PlayerState : this->GameState->PlayerArray)
+		{
+			AMyPlayerState* MyPlayerState = Cast<AMyPlayerState>(PlayerState);
+			if (MyPlayerState)
+			{
+				AllScore += MyPlayerState->GetCurrentScore();
+			}
+		}
+	}
+	
+	UE_LOG(LogTemp, Log, TEXT("Game End! Final Score: %d"), AllScore);
 
 }
 
@@ -66,4 +82,11 @@ void AUELearning1GameMode::SetImportantTargets()
 			AllBlocks.RemoveAt(RandomIndex);
 		}
 	}
+}
+
+void AUELearning1GameMode::PostLogin(APlayerController* NewPlayer)
+{
+	Super::PostLogin(NewPlayer);
+
+	PlayerControllerList.Add(NewPlayer);
 }

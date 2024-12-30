@@ -3,9 +3,15 @@
 #include "UELearning1Projectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
+#include "GameFramework/PlayerController.h"
 #include "UELearning1GameMode.h"
 #include "UELearning1Block.h"
+#include "UELearning1Character.h"
+#include "UELearning1PlayerController.h"
+#include "MyPlayerState.h"
 #include "Kismet/GameplayStatics.h"
+#include "MyPlayerState.h"
+
 
 AUELearning1Projectile::AUELearning1Projectile() 
 {
@@ -32,50 +38,76 @@ AUELearning1Projectile::AUELearning1Projectile()
 
 	// Die after 3 seconds by default
 	InitialLifeSpan = 3.0f;
+
 }
 
 void AUELearning1Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
-//{
-//	// Only add impulse and destroy projectile if we hit a physics
-//	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics())
-//	{
-//		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
-//
-//		Destroy();
-//	}
-//}
 {
 
     if (OtherActor != nullptr && OtherActor != this && OtherComp != nullptr)
     {
+        AUELearning1GameMode* GameMode = Cast<AUELearning1GameMode>(UGameplayStatics::GetGameMode(this));
+        // who send you?
+        AUELearning1PlayerController* PlayerController = Cast<AUELearning1PlayerController>(GetInstigatorController());
+
         // if block
         if (OtherActor->IsA(AUELearning1Block::StaticClass()))
         {
             // gamemode for counter
-            AUELearning1GameMode* GameMode = Cast<AUELearning1GameMode>(UGameplayStatics::GetGameMode(this));
-
             if (AUELearning1Block* HitBlock = Cast< AUELearning1Block>(OtherActor)) {
-                int32 ScoreToAdd = HitBlock->GetIsImportantTarget() ? GameMode->X * 2 : GameMode->X;
                 if (GameMode)
                 {
-                    GameMode->AddScore(ScoreToAdd);
-                    //UE_LOG(LogTemp, Log, TEXT("What to add: %d"), ScoreToAdd);
+                    //UE_LOG(LogTemp, Log, TEXT("Gamemode"));
 
+                    int32 ScoreToAdd = HitBlock->GetIsImportantTarget() ? GameMode->X * 2 : GameMode->X;
+                    if (PlayerController)
+                    {
+                        //UE_LOG(LogTemp, Log, TEXT("PlayerController"));
+
+                        AMyPlayerState* PlayerState = Cast<AMyPlayerState>(PlayerController->PlayerState);
+                        if (PlayerState)
+                        {
+                            //UE_LOG(LogTemp, Log, TEXT("PlayerState"));
+
+                            // add score to Player
+                            PlayerState->AddScore(GameMode->X);
+                        }
+                    }
+                    if (HitBlock->GetHitTimes() < 1)
+                    {
+                        // scale the block
+                        FVector NewScale = HitBlock->GetActorScale3D() * GameMode->Y;
+                        HitBlock->SetActorScale3D(NewScale);
+                        HitBlock->AddHitTimes();
+                    }
+                    else
+                    {
+                        // destroy the block
+                        HitBlock->Destroy();
+                    }
                 }
-                if (HitBlock->GetHitTimes() < 1) 
-                {
-                    // scale the block
-                    FVector NewScale = HitBlock->GetActorScale3D() * GameMode->Y;
-                    HitBlock->SetActorScale3D(NewScale);
-                    HitBlock->AddHitTimes();
-                }
-                else 
-                {
-                    // destroy the block
-                    HitBlock->Destroy();
-                }
+                
             }
             
+        }
+        else if (OtherActor->IsA(AUELearning1Character::StaticClass()))
+        {
+            if (AUELearning1Character* Charater = Cast<AUELearning1Character>(OtherActor))
+            {
+                if (GameMode)
+                {
+                    if (PlayerController)
+                    {
+                        AMyPlayerState* PlayerState = Cast<AMyPlayerState>(PlayerController->PlayerState);
+                        if (PlayerState)
+                        {
+                            // add score to Player
+                            PlayerState->AddScore(GameMode->X);
+                        }
+                    }
+                }
+                
+            }
         }
         else if (OtherComp->IsSimulatingPhysics())
         {

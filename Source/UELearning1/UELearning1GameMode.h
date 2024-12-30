@@ -22,6 +22,9 @@ public:
 
 	void StartGameTimer(float TimeLimit);
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Game Settings")
+	TArray<APlayerController*> PlayerControllerList;
+
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Game Settings")
 	int32 X; 
@@ -35,8 +38,16 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Game Settings")
 	int32 N;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Game Settings")
+	int32 BulletNum;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Game Settings")
+	float MaxHealth;
+
 protected:
 	virtual void BeginPlay() override;
+
+	virtual void PostLogin(APlayerController* NewPlayer) override;
 
 private:
 

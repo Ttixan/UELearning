@@ -8,6 +8,9 @@
 
 class AUELearning1Character;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFire);
+
+
 UCLASS(Blueprintable, BlueprintType, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UELEARNING1_API UTP_WeaponComponent : public USkeletalMeshComponent
 {

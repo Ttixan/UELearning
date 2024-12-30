@@ -44,7 +44,10 @@ void UTP_WeaponComponent::Fire()
 			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 	
 			// Spawn the projectile at the muzzle
-			World->SpawnActor<AUELearning1Projectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+			AUELearning1Projectile* Bullet = World->SpawnActor<AUELearning1Projectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+
+			// addinstigator
+			Bullet->SetInstigator(Character);
 		}
 	}
 	
@@ -64,6 +67,17 @@ void UTP_WeaponComponent::Fire()
 			AnimInstance->Montage_Play(FireAnimation, 1.f);
 		}
 	}
+	// Get Animation of HUD
+	//APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+	//if (PlayerController && PlayerController->GetHUD())
+	//{
+	//	class UUserWidget* CursorWidget = Cast<UUserWidget>(PlayerController->GetHUD()->GetUserWidgetObject());
+	//	if (CursorWidget)
+	//	{
+	//		// 播放光标放大缩小动画
+	//		CursorWidget->PlayAnimation(CursorWidget->OnhitCross);
+	//	}
+	//}
 }
 
 bool UTP_WeaponComponent::AttachWeapon(AUELearning1Character* TargetCharacter)

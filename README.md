@@ -12,3 +12,6 @@
 2. [Week 2: 游戏模式](./ClassNotes/Lesson%202/第二课%20游戏模式.md)
 3. [Week 3: C++代码规范](./ClassNotes/Lesson%203/第三课%20C++代码规范.md)
 4. [Week 4: UMG界面](./ClassNotes/Lesson%204/第四课%20UMG界面.md)
+5. [Week 5: 骨骼动画](./ClassNotes/Lesson%205/第五课%20骨骼动画.md)
+6. [Week 7: 渲染基础](./ClassNotes/Lesson%207/第七课%20渲染基础.md)
+7. [Week 8: 游戏AI技术介绍](./ClassNotes/Lesson%208/第八课%20游戏AI技术介绍.md)

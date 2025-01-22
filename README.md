@@ -6,6 +6,8 @@
 
 2024/12/30 实现UMG添加血条等
 
+2025/01/15 为Cube添加描边特效
+
 
 ## Notes for Lessons
 1. [Week 1: UE入门](./ClassNotes/Lesson%201/第一课%20UE入门.md)
@@ -15,3 +17,5 @@
 5. [Week 5: 骨骼动画](./ClassNotes/Lesson%205/第五课%20骨骼动画.md)
 6. [Week 7: 渲染基础](./ClassNotes/Lesson%207/第七课%20渲染基础.md)
 7. [Week 8: 游戏AI技术介绍](./ClassNotes/Lesson%208/第八课%20游戏AI技术介绍.md)
+8. [Week 9: UE网络同步](./ClassNotes/Lesson%209/第九课%20UE网络同步.md)
+9. [Week 10: FPS游戏基础](./ClassNotes/Lesson%2010/第十课%20FPS游戏基础.md)

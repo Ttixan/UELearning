@@ -57,17 +57,17 @@ void AUELearning1Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
             if (AUELearning1Block* HitBlock = Cast< AUELearning1Block>(OtherActor)) {
                 if (GameMode)
                 {
-                    //UE_LOG(LogTemp, Log, TEXT("Gamemode"));
+                    UE_LOG(LogTemp, Log, TEXT("Gamemode"));
 
                     int32 ScoreToAdd = HitBlock->GetIsImportantTarget() ? GameMode->X * 2 : GameMode->X;
                     if (PlayerController)
                     {
-                        //UE_LOG(LogTemp, Log, TEXT("PlayerController"));
+                        UE_LOG(LogTemp, Log, TEXT("PlayerController"));
 
                         AMyPlayerState* PlayerState = Cast<AMyPlayerState>(PlayerController->PlayerState);
                         if (PlayerState)
                         {
-                            //UE_LOG(LogTemp, Log, TEXT("PlayerState"));
+                            UE_LOG(LogTemp, Log, TEXT("PlayerState"));
 
                             // add score to Player
                             PlayerState->AddScore(GameMode->X);
@@ -86,7 +86,6 @@ void AUELearning1Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
                         HitBlock->Destroy();
                     }
                 }
-                
             }
             
         }

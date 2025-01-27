@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "UELearning1GameMode.h"
 #include "UELearning1Block.h"
+#include "MyUELearning1Enemy.h"
 #include "UELearning1Character.h"
 #include "UELearning1PlayerController.h"
 #include "MyPlayerState.h"
@@ -57,17 +58,17 @@ void AUELearning1Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
             if (AUELearning1Block* HitBlock = Cast< AUELearning1Block>(OtherActor)) {
                 if (GameMode)
                 {
-                    UE_LOG(LogTemp, Log, TEXT("Gamemode"));
+                    //UE_LOG(LogTemp, Log, TEXT("Gamemode"));
 
                     int32 ScoreToAdd = HitBlock->GetIsImportantTarget() ? GameMode->X * 2 : GameMode->X;
                     if (PlayerController)
                     {
-                        UE_LOG(LogTemp, Log, TEXT("PlayerController"));
+                        //UE_LOG(LogTemp, Log, TEXT("PlayerController"));
 
                         AMyPlayerState* PlayerState = Cast<AMyPlayerState>(PlayerController->PlayerState);
                         if (PlayerState)
                         {
-                            UE_LOG(LogTemp, Log, TEXT("PlayerState"));
+                            //UE_LOG(LogTemp, Log, TEXT("PlayerState"));
 
                             // add score to Player
                             PlayerState->AddScore(GameMode->X);
@@ -89,9 +90,9 @@ void AUELearning1Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
             }
             
         }
-        else if (OtherActor->IsA(AUELearning1Character::StaticClass()))
+        else if (OtherActor->IsA(AMyUELearning1Enemy::StaticClass()))
         {
-            if (AUELearning1Character* Charater = Cast<AUELearning1Character>(OtherActor))
+            if (AMyUELearning1Enemy* Charater = Cast<AMyUELearning1Enemy>(OtherActor))
             {
                 if (GameMode)
                 {
@@ -103,6 +104,18 @@ void AUELearning1Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherAc
                             // add score to Player
                             PlayerState->AddScore(GameMode->X);
                         }
+                    }
+                    if (Charater->GetHitTimes() < 1)
+                    {
+                        // scale the block
+                        //UE_LOG(LogTemp, Log, TEXT("Hit enemy"));
+                        Charater->AddHitTimes();
+
+                    }
+                    else
+                    {
+                        // destroy the block
+                        Charater->Destroy();
                     }
                 }
                 

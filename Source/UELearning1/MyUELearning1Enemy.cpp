@@ -3,3 +3,8 @@
 
 #include "MyUELearning1Enemy.h"
 
+void AMyUELearning1Enemy::AddHitTimes()
+{
+    HitTimes++;
+
+}
